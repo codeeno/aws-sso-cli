@@ -2,37 +2,77 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import Configstore from "configstore";
-import { addProfile, chooseProfile, loadConfig } from "./lib/profiles.mjs";
 import { refreshCredentials } from "./lib/auth.mjs";
 import { handleError } from "./lib/error.mjs";
-import { chooseAccount, chooseRole } from "./lib/accounts.mjs";
+import {
+  addProfile,
+  chooseProfile,
+  deleteProfile,
+  loadConfig,
+  updateConfig,
+} from "./lib/profiles.mjs";
+import {
+  chooseAccount,
+  chooseRole,
+  getCredentials,
+  findAccountByName,
+  findRoleByName,
+} from "./lib/accounts.mjs";
 
 const configstore = new Configstore("aws-sso-cli");
 
 const signInHandler = async (argv) => {
   try {
     const profile = "profile" in argv ? argv.profile : await chooseProfile(configstore);
-    await refreshCredentials(configstore, profile);
-    const {token: { accessToken }} = loadConfig(configstore, profile); //prettier-ignore
+    const config = await refreshCredentials(loadConfig(configstore, profile));
+    updateConfig(configstore, profile, config);
+    const {
+      token: { accessToken },
+      region,
+    } = config;
 
-    const accounts = await chooseAccount(accessToken);
-    console.log(accounts);
-    //const accounts = await chooseRole(config, profile);
-    //console.log(roles);
+    const { accountId } =
+      "account" in argv
+        ? await findAccountByName(accessToken, argv.account, region)
+        : await chooseAccount(accessToken, region);
+    const { roleName } =
+      "role" in argv
+        ? await findRoleByName(accessToken, argv.role, accountId, region)
+        : await chooseRole(accessToken, accountId, region);
+
+    const {
+      roleCredentials: { accessKeyId, secretAccessKey, sessionToken },
+    } = await getCredentials(accessToken, accountId, roleName, region);
+
+    console.log(
+      "",
+      `export AWS_ACCESS_KEY_ID=${accessKeyId}`,
+      "\n",
+      `export AWS_SECRET_ACCESS_KEY=${secretAccessKey}`,
+      "\n",
+      `export AWS_SESSION_TOKEN=${sessionToken}`
+    );
   } catch (err) {
     handleError(err);
   }
-
-  console.log("all done");
   process.exit(0);
 };
 
 const addProfileHandler = async () => {
   try {
-    await addProfile(config);
-    console.log("All set!");
+    await addProfile(configstore);
+    console.log("Profile added.");
   } catch (err) {
-    console.error("Error while addind new profile:", err);
+    handleError(err);
+  }
+};
+
+const deleteProfileHandler = async () => {
+  try {
+    await deleteProfile(configstore);
+    console.log("Profile successfully deleted.");
+  } catch (err) {
+    handleError(err);
   }
 };
 
@@ -45,6 +85,11 @@ yargs(hideBin(process.argv))
     handler: addProfileHandler,
   })
   .command({
+    command: "delete-profile",
+    desc: "Remove an SSO profile",
+    handler: deleteProfileHandler,
+  })
+  .command({
     command: "$0",
     desc: "Sign in to an AWS account using AWS SSO",
     handler: signInHandler,
@@ -52,6 +97,16 @@ yargs(hideBin(process.argv))
   .option("p", {
     alias: "profile",
     describe: "The SSO profile to use.",
+    type: "string",
+  })
+  .option("a", {
+    alias: "account",
+    describe: "The name of the account you wish to sign into.",
+    type: "string",
+  })
+  .option("r", {
+    alias: "role",
+    describe: "The role you wish to assume for the specified account.",
     type: "string",
   })
   .help("help", "Show help.").argv;
