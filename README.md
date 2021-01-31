@@ -4,7 +4,6 @@
 
 Switch between temporary AWS SSO credentials of many different AWS accounts. Using the AWS Cli v2, it is required to create a profile for *each* account, which is not practical if you're working with a big (growing) list of acocunts and/or multiple instances of AWS SSO.
 
-## Demo
 ![Demo](demo.gif)
 
 ## Features
