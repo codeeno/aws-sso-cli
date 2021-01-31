@@ -5,6 +5,11 @@
   "main": "index.js",
   "author": "eeno",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeeno/aws-sso-cli"
+  },
+  "bin": {"aws-sso-cli": "./index.js"},
   "type": "module",
   "engineStrict" : true,
   "engines" : { "node" : ">=13.2.0" },
