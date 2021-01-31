@@ -9,10 +9,14 @@
     "type": "git",
     "url": "https://github.com/codeeno/aws-sso-cli"
   },
-  "bin": {"aws-sso-cli": "./index.js"},
+  "bin": {
+    "aws-sso-cli": "./app.js"
+  },
   "type": "module",
-  "engineStrict" : true,
-  "engines" : { "node" : ">=13.2.0" },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=13.2.0"
+  },
   "dependencies": {
     "aws-sdk": "^2.831.0",
     "chalk": "^4.1.0",
