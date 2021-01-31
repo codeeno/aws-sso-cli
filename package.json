@@ -4,7 +4,7 @@
   "description": "A tool for easily switching between different AWS SSO accounts.",
   "main": "index.js",
   "author": "eeno",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "type": "module",
   "engineStrict" : true,
   "engines" : { "node" : ">=13.2.0" },
