@@ -2,22 +2,22 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import Configstore from "configstore";
-import { refreshCredentials } from "./lib/auth.mjs";
-import { handleError } from "./lib/error.mjs";
+import { refreshCredentials } from "./lib/auth.js";
+import { handleError } from "./lib/error.js";
 import {
   addProfile,
   chooseProfile,
   deleteProfile,
   loadConfig,
   updateConfig,
-} from "./lib/profiles.mjs";
+} from "./lib/profiles.js";
 import {
   chooseAccount,
   chooseRole,
   getCredentials,
   findAccountByName,
   findRoleByName,
-} from "./lib/accounts.mjs";
+} from "./lib/accounts.js";
 
 const configstore = new Configstore("aws-sso-cli");
 
