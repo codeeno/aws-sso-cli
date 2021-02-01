@@ -44,7 +44,7 @@ const signInHandler = async (argv) => {
       roleCredentials: { accessKeyId, secretAccessKey, sessionToken },
     } = await getCredentials(accessToken, accountId, roleName, region);
 
-    console.log(
+    console.error(
       "",
       `export AWS_ACCESS_KEY_ID=${accessKeyId}`,
       "\n",
@@ -61,7 +61,7 @@ const signInHandler = async (argv) => {
 const addProfileHandler = async () => {
   try {
     await addProfile(configstore);
-    console.log("Profile added.");
+    console.error("Profile added.");
   } catch (err) {
     handleError(err);
   }
@@ -70,7 +70,7 @@ const addProfileHandler = async () => {
 const deleteProfileHandler = async () => {
   try {
     await deleteProfile(configstore);
-    console.log("Profile successfully deleted.");
+    console.error("Profile successfully deleted.");
   } catch (err) {
     handleError(err);
   }
