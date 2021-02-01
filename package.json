@@ -1,6 +1,6 @@
 {
   "name": "aws-sso-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A tool for easily switching between different AWS SSO accounts.",
   "main": "index.js",
   "author": "eeno",
