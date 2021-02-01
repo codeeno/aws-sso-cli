@@ -44,7 +44,7 @@ const signInHandler = async (argv) => {
       roleCredentials: { accessKeyId, secretAccessKey, sessionToken },
     } = await getCredentials(accessToken, accountId, roleName, region);
 
-    console.error(
+    console.log(
       "",
       `export AWS_ACCESS_KEY_ID=${accessKeyId}`,
       "\n",
