@@ -23,13 +23,14 @@ const configstore = new Configstore("aws-sso-cli");
 
 const signInHandler = async (argv) => {
   try {
-    const profile = "profile" in argv ? argv.profile : await chooseProfile(configstore);
+    const profile =
+      "profile" in argv
+        ? argv.profile
+        : await chooseProfile(configstore);
+        
     const config = await refreshCredentials(loadConfig(configstore, profile), argv.forceNewToken);
     updateConfig(configstore, profile, config);
-    const {
-      token: { accessToken },
-      region,
-    } = config;
+    const { token: { accessToken }, region, } = config;
 
     const { accountId } =
       "account" in argv
