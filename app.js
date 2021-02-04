@@ -24,7 +24,7 @@ const configstore = new Configstore("aws-sso-cli");
 const signInHandler = async (argv) => {
   try {
     const profile = "profile" in argv ? argv.profile : await chooseProfile(configstore);
-    const config = await refreshCredentials(loadConfig(configstore, profile));
+    const config = await refreshCredentials(loadConfig(configstore, profile), argv.forceNewToken);
     updateConfig(configstore, profile, config);
     const {
       token: { accessToken },
@@ -109,4 +109,10 @@ yargs(hideBin(process.argv))
     describe: "The role you wish to assume for the specified account.",
     type: "string",
   })
+  .option("f", {
+    alias: "force-new-token",
+    describe: "Force fetch a new access token for AWS SSO.",
+    type: "boolean",
+  })
+  .wrap(90)
   .help("help", "Show help.").argv;

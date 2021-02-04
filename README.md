@@ -39,12 +39,13 @@ Usage: aws-sso-cli [options]
 Commands:
   aws-sso-cli add-profile     Add a new SSO profile
   aws-sso-cli delete-profile  Remove an SSO profile
-  aws-sso-cli                 Sign in to an AWS account using AWS SSO  [default]
+  aws-sso-cli                 Sign in to an AWS account using AWS SSO            [default]
 
 Options:
-      --version  Show version number                                   [boolean]
-  -p, --profile  The SSO profile to use.                                [string]
-  -a, --account  The name of the account you wish to sign into.         [string]
-  -r, --role     The role you wish to assume for the specified account. [string]
-      --help     Show help.                                            [boolean]
+      --version          Show version number                                     [boolean]
+  -p, --profile          The SSO profile to use.                                  [string]
+  -a, --account          The name of the account you wish to sign into.           [string]
+  -r, --role             The role you wish to assume for the specified account.   [string]
+  -f, --force-new-token  Force fetch a new access token for AWS SSO.             [boolean]
+      --help             Show help.                                              [boolean]
 ```
