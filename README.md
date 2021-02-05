@@ -33,7 +33,7 @@ aws-sso-cli() {
 
 ## Usage
 
-```bash
+```
 Usage: aws-sso-cli [options]
 
 Commands:
