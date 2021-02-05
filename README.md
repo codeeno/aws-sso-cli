@@ -13,6 +13,9 @@ Switch between temporary AWS SSO credentials of all your AWS accounts using the 
 * Re-authenticates whenever the access token becomes invalid.
 * Interactively prompts for Proiles/Accounts/Roles if not supplied through options
 
+## Requirements
+* Node.js **v14** or higher
+
 ## Setup
 Install with npm:
 ```bash
