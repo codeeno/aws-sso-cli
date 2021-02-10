@@ -1,7 +1,11 @@
 #!/usr/bin/env node
+
 import yargs from "yargs";
+import chalk from "chalk";
+import open from "open";
 import { hideBin } from "yargs/helpers";
 import Configstore from "configstore";
+import { getSigninUrl } from "./lib/web.js";
 import { refreshCredentials } from "./lib/auth.js";
 import { handleError } from "./lib/error.js";
 import {
@@ -23,19 +27,20 @@ const configstore = new Configstore("aws-sso-cli");
 
 const signInHandler = async (argv) => {
   try {
-    const profile =
-      "profile" in argv
-        ? argv.profile
-        : await chooseProfile(configstore);
-        
+    const profile = "profile" in argv ? argv.profile : await chooseProfile(configstore);
+
     const config = await refreshCredentials(loadConfig(configstore, profile), argv.forceNewToken);
     updateConfig(configstore, profile, config);
-    const { token: { accessToken }, region, } = config;
+    const {
+      token: { accessToken },
+      region,
+    } = config;
 
     const { accountId } =
       "account" in argv
         ? await findAccountByName(accessToken, argv.account, region)
         : await chooseAccount(accessToken, region);
+
     const { roleName } =
       "role" in argv
         ? await findRoleByName(accessToken, argv.role, accountId, region)
@@ -45,14 +50,19 @@ const signInHandler = async (argv) => {
       roleCredentials: { accessKeyId, secretAccessKey, sessionToken },
     } = await getCredentials(accessToken, accountId, roleName, region);
 
-    console.log(
-      "",
-      `export AWS_ACCESS_KEY_ID=${accessKeyId}`,
-      "\n",
-      `export AWS_SECRET_ACCESS_KEY=${secretAccessKey}`,
-      "\n",
-      `export AWS_SESSION_TOKEN=${sessionToken}`
-    );
+    if (argv.web) {
+      open(await getSigninUrl(accessKeyId, secretAccessKey, sessionToken, region));
+    } else {
+      console.log(
+        "",
+        `export AWS_ACCESS_KEY_ID=${accessKeyId}`,
+        "\n",
+        `export AWS_SECRET_ACCESS_KEY=${secretAccessKey}`,
+        "\n",
+        `export AWS_SESSION_TOKEN=${sessionToken}`
+      );
+    }
+    console.error(chalk.bold.green("\nAll set!"));
   } catch (err) {
     handleError(err);
   }
@@ -113,6 +123,11 @@ yargs(hideBin(process.argv))
   .option("f", {
     alias: "force-new-token",
     describe: "Force fetch a new access token for AWS SSO.",
+    type: "boolean",
+  })
+  .option("w", {
+    alias: "web",
+    describe: "Open selected AWS account in your web browser.",
     type: "boolean",
   })
   .wrap(90)
