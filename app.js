@@ -51,7 +51,7 @@ const signInHandler = async (argv) => {
     } = await getCredentials(accessToken, accountId, roleName, region);
 
     if (argv.web) {
-      open(await getSigninUrl(accessKeyId, secretAccessKey, sessionToken, region));
+      open(await getSigninUrl(accessKeyId, secretAccessKey, sessionToken));
     } else {
       console.log(
         "",
