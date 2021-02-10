@@ -54,5 +54,6 @@ Options:
   -a, --account          The name of the account you wish to sign into.           [string]
   -r, --role             The role you wish to assume for the specified account.   [string]
   -f, --force-new-token  Force fetch a new access token for AWS SSO.             [boolean]
+  -w, --web              Open selected AWS account in your web browser.          [boolean]
       --help             Show help.                                              [boolean]
 ```
