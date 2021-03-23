@@ -11,7 +11,7 @@ Switch between temporary AWS SSO credentials of all your AWS accounts using the 
 - Generates temporary AWS SSO credentials from the commandline
 - Configure SSO profiles for jumping between different instances of AWS SSO
 - Re-authenticates whenever the access token becomes invalid
-- Interactively prompts for Proiles/Accounts/Roles if not supplied through options
+- Interactively prompts for Profiles/Accounts/Roles if not supplied through options
 - Ability to open web console of selected account
 
 ## Requirements
