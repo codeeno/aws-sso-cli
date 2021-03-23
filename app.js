@@ -12,6 +12,7 @@ import {
   addProfile,
   chooseProfile,
   deleteProfile,
+  listProfiles,
   loadConfig,
   updateConfig,
 } from "./lib/profiles.js";
@@ -87,6 +88,19 @@ const deleteProfileHandler = async () => {
   }
 };
 
+const listProfilesHandler = () => {
+  try {
+    const profiles = listProfiles(configstore);
+    if (profiles.length === 0) {
+      console.error("No profiles configured yet.");
+      return;
+    }
+    console.error("Profiles:", `\n\n* ${profiles.join("\n* ")}`);
+  } catch (err) {
+    handleError(err);
+  }
+};
+
 yargs(hideBin(process.argv))
   .scriptName("aws-sso-cli")
   .usage("Usage: $0 [options]")
@@ -99,6 +113,11 @@ yargs(hideBin(process.argv))
     command: "delete-profile",
     desc: "Remove an SSO profile",
     handler: deleteProfileHandler,
+  })
+  .command({
+    command: "list-profiles",
+    desc: "List all currently configured profiles.",
+    handler: listProfilesHandler,
   })
   .command({
     command: "$0",
