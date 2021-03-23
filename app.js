@@ -116,7 +116,7 @@ yargs(hideBin(process.argv))
   })
   .command({
     command: "list-profiles",
-    desc: "List all currently configured profiles.",
+    desc: "List all currently configured profiles",
     handler: listProfilesHandler,
   })
   .command({
@@ -126,27 +126,27 @@ yargs(hideBin(process.argv))
   })
   .option("p", {
     alias: "profile",
-    describe: "The SSO profile to use.",
+    describe: "The SSO profile to use",
     type: "string",
   })
   .option("a", {
     alias: "account",
-    describe: "The name of the account you wish to sign into.",
+    describe: "The name of the account you wish to sign into",
     type: "string",
   })
   .option("r", {
     alias: "role",
-    describe: "The role you wish to assume for the specified account.",
+    describe: "The role you wish to assume for the specified account",
     type: "string",
   })
   .option("f", {
     alias: "force-new-token",
-    describe: "Force fetch a new access token for AWS SSO.",
+    describe: "Force fetch a new access token for AWS SSO",
     type: "boolean",
   })
   .option("w", {
     alias: "web",
-    describe: "Open selected AWS account in your web browser.",
+    describe: "Open selected AWS account in your web browser",
     type: "boolean",
   })
   .wrap(90)
