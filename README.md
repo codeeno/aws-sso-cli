@@ -46,6 +46,7 @@ Usage: aws-sso-cli [options]
 Commands:
   aws-sso-cli add-profile     Add a new SSO profile
   aws-sso-cli delete-profile  Remove an SSO profile
+  aws-sso-cli list-profiles   List all currently configured profiles.
   aws-sso-cli                 Sign in to an AWS account using AWS SSO            [default]
 
 Options:
