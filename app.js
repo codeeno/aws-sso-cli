@@ -51,7 +51,9 @@ const signInHandler = async (argv) => {
       roleCredentials: { accessKeyId, secretAccessKey, sessionToken },
     } = await getCredentials(accessToken, accountId, roleName, region);
 
-    if (argv.web) {
+    if (argv.web && typeof process.env.BROWSER !== 'undefined') {
+      open(await getSigninUrl(accessKeyId, secretAccessKey, sessionToken), {app: process.env.BROWSER});
+    } else if (argv.web) {
       open(await getSigninUrl(accessKeyId, secretAccessKey, sessionToken));
     } else {
       console.log(
