@@ -30,11 +30,11 @@ By default, the utility prints out the `export` statements for the credentials (
 
 ```bash
 aws-sso-cli() {
-  command aws-sso-cli "$@" | while read -r line; do
+  while read -r line; do
     if [[ $line =~ ^export ]]; then
       eval $line
     fi
-  done
+  done < <(command aws-sso-cli "$@")
 }
 ```
 
